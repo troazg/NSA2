@@ -109,7 +109,24 @@ NSALoginController {
      * @param user The user whose password needs to be hashed.
      * @exception Exception If there is a problem with the chosen hash function.
      */
-    public static void hashUserPassword(User user) throws Exception {
+    public static void hashUserPassword(User user) throws Exception, WeakPasswordException {
+
+        String message = null;
+
+        if (user.getPassword().length() < 8) {
+            message += " is too short";
+        }
+
+        if ( user.getPassword().matches("\\d+") ) {
+            if (message != null) {
+                message += " and";
+            }
+            message += " does not contain a number";
+        }
+
+        if ( message != null ) {
+            throw new WeakPasswordException(message);
+        }
 
         // Get the next random salt value to use for this password
         byte[] salt = getNextSalt();

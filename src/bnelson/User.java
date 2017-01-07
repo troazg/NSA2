@@ -23,7 +23,7 @@ public class User {
     }
 
     public void setPassword(String newVal) {
-        password = newVal;
+            password = newVal;
     }
 
     public void setSalt(String newVal) {
