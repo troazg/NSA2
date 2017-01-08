@@ -111,22 +111,10 @@ NSALoginController {
      */
     public static void hashUserPassword(User user) throws Exception, WeakPasswordException {
 
-        String message = null;
-
-        if (user.getPassword().length() < 8) {
-            message += " is too short";
+        if (user.getPassword().length() < 8 || !user.getPassword().matches("(.*)\\d+(.*)")) {
+            throw new WeakPasswordException();
         }
 
-        if ( user.getPassword().matches("\\d+") ) {
-            if (message != null) {
-                message += " and";
-            }
-            message += " does not contain a number";
-        }
-
-        if ( message != null ) {
-            throw new WeakPasswordException(message);
-        }
 
         // Get the next random salt value to use for this password
         byte[] salt = getNextSalt();
